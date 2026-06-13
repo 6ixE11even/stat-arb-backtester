@@ -1,0 +1,30 @@
+[project]
+name = "stat-arb-backtester"
+version = "0.1.0"
+description = "Statistical-arbitrage pairs trading: cointegration-based pair selection, z-score signals, and an event-driven backtester with transaction costs (Sharpe, drawdown, turnover)."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Tejas Pandya", email = "tbp8777@nyu.edu" }]
+license = { text = "MIT" }
+keywords = ["statistical-arbitrage", "pairs-trading", "cointegration", "backtesting", "quant"]
+
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "statsmodels>=0.14",   # Engle-Granger cointegration test
+    "requests>=2.31",      # Deribit public API client
+    "matplotlib>=3.8",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
