@@ -21,6 +21,36 @@ live data → pair selection → signal → P&L.
 5. **Metrics** (`metrics.py`) — annualised return/vol, Sharpe, max drawdown, hit rate,
    turnover; equity curve + spread charts in `viz.py`.
 
+## The math
+
+**Cointegration.** Two non-stationary (I(1)) price series $y_t, x_t$ are cointegrated
+if some linear combination is stationary. Engle-Granger tests this in two steps:
+regress $y_t = \beta x_t + c + u_t$ by OLS, then run an ADF unit-root test on the
+residuals $\hat u_t$ — using Engle-Granger critical values, which are stricter than
+plain ADF because $\beta$ was estimated. Rejection means the spread
+
+$$s_t = y_t - \hat\beta x_t$$
+
+is mean-reverting, and $\hat\beta$ is the hedge ratio that makes the pair
+market-neutral in the cointegrating direction.
+
+**Signal.** The spread is standardised on a rolling window,
+$z_t = (s_t - \mu_t)/\sigma_t$, and traded as a state machine: short the spread at
+$z \ge +2$, long at $z \le -2$, flatten near zero. Under an Ornstein-Uhlenbeck view
+of the spread, $ds_t = \theta(\mu - s_t)\,dt + \sigma\,dW_t$, the entry threshold is
+a bet that $|z|=2$ deviations decay with half-life $\ln 2 / \theta$ — the fixture
+tests assert exactly this round trip.
+
+**P&L.** Yesterday's position earns today's spread change (no look-ahead); each
+position flip is charged `cost_bps` of the notional traded. Reported Sharpe is
+$\sqrt{252}\,\bar r / \hat\sigma_r$ on daily portfolio returns.
+
+## References
+
+- Engle, R. & Granger, C. (1987), *Co-integration and Error Correction*, Econometrica 55(2) — the two-step test.
+- Gatev, E., Goetzmann, W. & Rouwenhorst, K.G. (2006), *Pairs Trading: Performance of a Relative-Value Arbitrage Rule*, Review of Financial Studies 19(3).
+- Avellaneda, M. & Lee, J.-H. (2010), *Statistical Arbitrage in the US Equities Market*, Quantitative Finance 10(7) — the OU/z-score framing.
+
 ## Run
 
 ```bash
