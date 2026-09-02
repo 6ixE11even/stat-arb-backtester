@@ -29,7 +29,10 @@ def positions_from_z(z: pd.Series, entry: float = 2.0, exit: float = 0.5) -> pd.
     state = 0
     for t in range(len(zv)):
         if np.isnan(zv[t]):
-            pos[t] = 0
+            # No signal is not a flat signal. Writing 0 here dropped the position
+            # for one bar and put it back on the next, which pos.diff() charged as
+            # a full round trip that never happened.
+            pos[t] = state
             continue
         if state == 0:
             if zv[t] >= entry:
