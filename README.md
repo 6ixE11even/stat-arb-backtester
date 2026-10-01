@@ -38,8 +38,8 @@ market-neutral in the cointegrating direction.
 $z_t = (s_t - \mu_t)/\sigma_t$, and traded as a state machine: short the spread at
 $z \ge +2$, long at $z \le -2$, flatten near zero. Under an Ornstein-Uhlenbeck view
 of the spread, $ds_t = \theta(\mu - s_t)\,dt + \sigma\,dW_t$, the entry threshold is
-a bet that $|z|=2$ deviations decay with half-life $\ln 2 / \theta$ — the fixture
-tests assert exactly this round trip.
+a bet that $|z|=2$ deviations decay with half-life $\ln 2 / \theta$. The tests pin
+the state machine's entry and exit thresholds; nothing tests the half-life itself.
 
 **P&L.** Yesterday's position earns today's spread change (no look-ahead); each
 position flip is charged `cost_bps` of the notional traded. Reported Sharpe is
