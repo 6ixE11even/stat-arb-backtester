@@ -13,8 +13,8 @@ history. Fitting beta on all 600 days and then trading it from day 1 hands the
 strategy the answer; the spread is stationary by construction because you solved for
 the coefficient that made it so.
 
-*Fifteen pairs is fifteen tests.* Six assets give 15 combinations, and at p < 0.05
-you expect roughly one false positive from noise alone. The p-values go through a
+*Every pair is a test.* Five live assets give 10 combinations (six would give 15), and
+at p < 0.05 you expect about one false positive in 20 tests from noise alone. The p-values go through a
 Benjamini-Hochberg step so the reported set controls the false-discovery rate rather
 than the per-test error.
 """
